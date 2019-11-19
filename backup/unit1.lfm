@@ -1,0 +1,130 @@
+object Form1: TForm1
+  Left = 418
+  Height = 503
+  Top = 119
+  Width = 711
+  AutoSize = True
+  Caption = 'E-awaria'
+  ClientHeight = 503
+  ClientWidth = 711
+  LCLVersion = '1.8.4.0'
+  object Shape2: TShape
+    Left = 16
+    Height = 240
+    Top = 256
+    Width = 688
+    Brush.Color = 4259584
+  end
+  object DateEdit1: TDateEdit
+    Left = 26
+    Height = 23
+    Top = 15
+    Width = 103
+    CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+    DefaultToday = True
+    DateOrder = doDMY
+    ButtonWidth = 23
+    NumGlyphs = 1
+    MaxLength = 10
+    TabOrder = 0
+    Text = '19.11.2019'
+  end
+  object DateEdit2: TDateEdit
+    Left = 32
+    Height = 23
+    Top = 264
+    Width = 103
+    CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+    DefaultToday = True
+    DateOrder = doDMY
+    ButtonWidth = 23
+    NumGlyphs = 1
+    MaxLength = 10
+    TabOrder = 1
+    Text = '19.11.2019'
+  end
+  object TimeEdit1: TTimeEdit
+    Left = 26
+    Height = 23
+    Top = 62
+    Width = 103
+    DefaultNow = True
+    ButtonWidth = 23
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 2
+    Text = 'wybierz godzine'
+  end
+  object TimeEdit2: TTimeEdit
+    Left = 32
+    Height = 23
+    Top = 311
+    Width = 103
+    DefaultNow = True
+    ButtonWidth = 23
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 3
+    Text = 'wybierz godzine'
+  end
+  object ComboBox1: TComboBox
+    Left = 26
+    Height = 23
+    Top = 109
+    Width = 664
+    ItemHeight = 15
+    TabOrder = 4
+    Text = 'ComboBox1'
+  end
+  object ComboBox2: TComboBox
+    Left = 26
+    Height = 23
+    Top = 156
+    Width = 664
+    ItemHeight = 15
+    TabOrder = 5
+    Text = 'ComboBox2'
+  end
+  object Button1: TButton
+    Left = 26
+    Height = 25
+    Top = 203
+    Width = 664
+    Caption = 'Zglos awarie'
+    OnClick = Button1Click
+    TabOrder = 6
+  end
+  object ComboBox3: TComboBox
+    Left = 32
+    Height = 23
+    Top = 358
+    Width = 664
+    ItemHeight = 15
+    TabOrder = 7
+    Text = 'ComboBox3'
+  end
+  object ComboBox4: TComboBox
+    Left = 32
+    Height = 23
+    Top = 405
+    Width = 664
+    ItemHeight = 15
+    TabOrder = 8
+    Text = 'ComboBox4'
+  end
+  object Button2: TButton
+    Left = 32
+    Height = 25
+    Top = 452
+    Width = 664
+    Caption = 'Potwierdz naprawe'
+    TabOrder = 9
+  end
+  object Shape1: TShape
+    Left = 16
+    Height = 240
+    Top = 8
+    Width = 688
+    Brush.Color = 921333
+  end
+end
