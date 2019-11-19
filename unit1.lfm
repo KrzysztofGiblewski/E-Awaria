@@ -81,7 +81,7 @@ object Form1: TForm1
     Width = 664
     ItemHeight = 15
     TabOrder = 4
-    Text = 'co sie popsulo co jest uszkodzone'
+    Text = 'wpisz lub wybierz co sie popsulo co jest uszkodzone'
   end
   object ComboBox2: TComboBox
     Left = 26

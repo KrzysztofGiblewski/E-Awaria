@@ -1,13 +1,20 @@
 object Form1: TForm1
-  Left = 418
+  Left = 271
   Height = 503
-  Top = 119
+  Top = 112
   Width = 711
   AutoSize = True
   Caption = 'E-awaria'
   ClientHeight = 503
   ClientWidth = 711
   LCLVersion = '1.8.4.0'
+  object Shape1: TShape
+    Left = 16
+    Height = 240
+    Top = 8
+    Width = 688
+    Brush.Color = 921333
+  end
   object Shape2: TShape
     Left = 16
     Height = 240
@@ -72,9 +79,10 @@ object Form1: TForm1
     Height = 23
     Top = 109
     Width = 664
+    ArrowKeysTraverseList = False
     ItemHeight = 15
     TabOrder = 4
-    Text = 'ComboBox1'
+    Text = 'co sie popsulo co jest uszkodzone'
   end
   object ComboBox2: TComboBox
     Left = 26
@@ -82,8 +90,13 @@ object Form1: TForm1
     Top = 156
     Width = 664
     ItemHeight = 15
+    Items.Strings = (
+      'Jarek'
+      'Karol'
+      'Leszek'
+    )
     TabOrder = 5
-    Text = 'ComboBox2'
+    Text = 'kto zglasza awarie'
   end
   object Button1: TButton
     Left = 26
@@ -101,7 +114,7 @@ object Form1: TForm1
     Width = 664
     ItemHeight = 15
     TabOrder = 7
-    Text = 'ComboBox3'
+    Text = 'jak wygladala naprawa czy to regulacja czy nowe czesci lub caly podzespul'
   end
   object ComboBox4: TComboBox
     Left = 32
@@ -109,8 +122,13 @@ object Form1: TForm1
     Top = 405
     Width = 664
     ItemHeight = 15
+    Items.Strings = (
+      'Marcin'
+      'Janusz'
+      'Krzysztof'
+    )
     TabOrder = 8
-    Text = 'ComboBox4'
+    Text = 'kto usunol awarie'
   end
   object Button2: TButton
     Left = 32
@@ -119,12 +137,5 @@ object Form1: TForm1
     Width = 664
     Caption = 'Potwierdz naprawe'
     TabOrder = 9
-  end
-  object Shape1: TShape
-    Left = 16
-    Height = 240
-    Top = 8
-    Width = 688
-    Brush.Color = 921333
   end
 end
