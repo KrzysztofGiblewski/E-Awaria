@@ -1,12 +1,12 @@
 object Form1: TForm1
-  Left = 271
-  Height = 503
-  Top = 112
-  Width = 711
+  Left = 114
+  Height = 637
+  Top = 16
+  Width = 977
   AutoSize = True
   Caption = 'E-awaria'
-  ClientHeight = 503
-  ClientWidth = 711
+  ClientHeight = 637
+  ClientWidth = 977
   LCLVersion = '1.8.4.0'
   object Shape1: TShape
     Left = 16
@@ -17,8 +17,8 @@ object Form1: TForm1
   end
   object Shape2: TShape
     Left = 16
-    Height = 240
-    Top = 256
+    Height = 248
+    Top = 248
     Width = 688
     Brush.Color = 4259584
   end
@@ -135,6 +135,17 @@ object Form1: TForm1
     Top = 452
     Width = 664
     Caption = 'Potwierdz naprawe'
+    OnClick = Button2Click
     TabOrder = 9
+  end
+  object Memo1: TMemo
+    Left = 16
+    Height = 136
+    Top = 496
+    Width = 934
+    Lines.Strings = (
+      'Memo1'
+    )
+    TabOrder = 10
   end
 end
