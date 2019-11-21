@@ -93,8 +93,20 @@ begin
   end;
 
 procedure TForm1.FormActivate(Sender: TObject);
+var
+  TF : TextFile;
+ scierzka:String;
 begin
+   scierzka:=Edit1.Text+Edit2.Text;
+  AssignFile(TF, scierzka);
+  try
+    Append(TF);
 
+  finally
+    CloseFile(TF);
+end;
+  Memo1.Lines.LoadFromFile(scierzka);
+  end;
 end;
 
 procedure TForm1.TimeEdit1Change(Sender: TObject);
