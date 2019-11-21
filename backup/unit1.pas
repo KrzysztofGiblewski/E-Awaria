@@ -21,13 +21,18 @@ type
     ComboBox4: TComboBox;
     DateEdit1: TDateEdit;
     DateEdit2: TDateEdit;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Label1: TLabel;
     Memo1: TMemo;
+    Panel1: TPanel;
     Shape1: TShape;
-    Shape2: TShape;
     TimeEdit1: TTimeEdit;
     TimeEdit2: TTimeEdit;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure TimeEdit1Change(Sender: TObject);
   private
 
   public
@@ -43,17 +48,25 @@ implementation
 
 { TForm1 }
 
+
 procedure TForm1.Button1Click(Sender: TObject);
 var
   TF : TextFile;
+  scierzka:  String;
 begin
-  AssignFile(TF, 'C:\temp\plik_awarii.txt');
+  scierzka:=Edit1.Text+Edit2.Text;
+  AssignFile(TF, scierzka);
 
   try
     Append(TF);
-    Write(TF, DateEdit1.Text+','+TimeEdit1.Text   +','+ ComboBox1.Text+','+'zglaszajacy' +','+ComboBox2.Text+',');
+    Write(TF, DateEdit1.Text+','+TimeEdit1.Text   +','+ ComboBox1.Text+','
+                +'zglaszajacy' +','+ComboBox2.Text+',');
   finally
     CloseFile(TF);
+    Shape1.Brush.Color:=$007070FE;
+    Button2.Enabled:=true;
+    Button1.Enabled:=false;
+    Memo1.Lines.LoadFromFile(scierzka);
   end;
 
    end;
@@ -61,22 +74,33 @@ begin
 procedure TForm1.Button2Click(Sender: TObject);
 var
   TF : TextFile;
-  linijka:Integer;
+ scierzka:String;
 begin
-  AssignFile(TF, 'C:\temp\plik_awarii.txt');
-
+   scierzka:=Edit1.Text+Edit2.Text;
+  AssignFile(TF, scierzka);
   try
     Append(TF);
-    Write(TF, DateEdit1.Text+','+TimeEdit1.Text   +','+ ComboBox1.Text+','+'naprawiający' +','+ComboBox2.Text+#13);
+    Write(TF, DateEdit2.Text+','+TimeEdit2.Text   +','+ ComboBox3.Text+','
+              +'naprawiający' +','+ComboBox4.Text+#13);
   finally
     CloseFile(TF);
- linijka:=  Memo1.Lines.Count;
- Memo1.Lines.Add(inttostr(linijka));
- // Memo1.Lines.LoadFromFile('C:\temp\plik_awarii.txt');
-
+ Shape1.Brush.Color:= $0072FCB7  ;
+  Button1.Enabled:=true;
+  Button2.Enabled:=false;
+  Memo1.Lines.LoadFromFile(scierzka);
   end;
 
   end;
+
+procedure TForm1.FormActivate(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.TimeEdit1Change(Sender: TObject);
+begin
+
+end;
 
 end.
 
