@@ -23,6 +23,7 @@ type
     DateEdit2: TDateEdit;
     Edit1: TEdit;
     Edit2: TEdit;
+    Edit3: TEdit;
     Label1: TLabel;
     Memo1: TMemo;
     Panel1: TPanel;
@@ -32,7 +33,7 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormActivate(Sender: TObject);
-    procedure TimeEdit1Change(Sender: TObject);
+
   private
 
   public
@@ -42,6 +43,9 @@ type
 var
   Form1: TForm1;
 
+  TxtLista ,TxtSprawdz: TextFile;
+ scierzka, scierzkaKontrolki,kontrolkaString , tempowaty:String;
+
 implementation
 
 {$R *.lfm}
@@ -50,69 +54,115 @@ implementation
 
 
 procedure TForm1.Button1Click(Sender: TObject);
-var
-  TF : TextFile;
-  scierzka:  String;
 begin
   scierzka:=Edit1.Text+Edit2.Text;
-  AssignFile(TF, scierzka);
+  scierzkaKontrolki:=Edit1.Text+Edit3.Text;
+  AssignFile(TxtLista, scierzka);
 
   try
-    Append(TF);
-    Write(TF, DateEdit1.Text+','+TimeEdit1.Text   +','+ ComboBox1.Text+','
+    Append(TxtLista);
+    Write(TxtLista, DateEdit1.Text+','+TimeEdit1.Text   +','+ ComboBox1.Text+','
                 +'zglaszajacy' +','+ComboBox2.Text+',');
   finally
-    CloseFile(TF);
+    CloseFile(TxtLista);
     Shape1.Brush.Color:=$007070FE;
     Button2.Enabled:=true;
     Button1.Enabled:=false;
     Memo1.Lines.LoadFromFile(scierzka);
   end;
+ ///////////
 
-   end;
+  begin
+  AssignFile(TxtSprawdz, scierzkaKontrolki);
+  try
+    Rewrite(TxtSprawdz);
+    Write(TxtSprawdz,'a');
+
+  finally
+    CloseFile(TxtSprawdz);
+end;
+ //////////////
+
+
+
+end;
+  end;
 
 procedure TForm1.Button2Click(Sender: TObject);
-var
-  TF : TextFile;
- scierzka:String;
 begin
    scierzka:=Edit1.Text+Edit2.Text;
-  AssignFile(TF, scierzka);
+  AssignFile(TxtLista, scierzka);
   try
-    Append(TF);
-    Write(TF, DateEdit2.Text+','+TimeEdit2.Text   +','+ ComboBox3.Text+','
+    Append(TxtLista);
+    Write(TxtLista, DateEdit2.Text+','+TimeEdit2.Text   +','+ ComboBox3.Text+','
               +'naprawiający' +','+ComboBox4.Text+#13);
   finally
-    CloseFile(TF);
+    CloseFile(TxtLista);
  Shape1.Brush.Color:= $0072FCB7  ;
   Button1.Enabled:=true;
   Button2.Enabled:=false;
   Memo1.Lines.LoadFromFile(scierzka);
   end;
+   ///////////
 
+  begin
+  AssignFile(TxtSprawdz, scierzkaKontrolki);
+  try
+    Rewrite(TxtSprawdz);
+    Write(TxtSprawdz,'s');
+
+  finally
+    CloseFile(TxtSprawdz);
+end;
+ //////////////
+
+
+ end;
   end;
 
 procedure TForm1.FormActivate(Sender: TObject);
-var
-  TF : TextFile;
- scierzka:String;
 begin
-   scierzka:=Edit1.Text+Edit2.Text;
-  AssignFile(TF, scierzka);
+  scierzka:=Edit1.Text+Edit2.Text;
+  AssignFile(TxtLista, scierzka);
   try
-    Append(TF);
+    Append(TxtLista);
 
   finally
-    CloseFile(TF);
+    CloseFile(TxtLista);
 end;
   Memo1.Lines.LoadFromFile(scierzka);
-  end;
+    scierzkaKontrolki:=Edit1.Text+Edit3.Text;
+
+  begin
+  AssignFile(TxtSprawdz, scierzkaKontrolki);
+  try
+    Reset(TxtSprawdz);
+   ReadLn(TxtSprawdz,kontrolkaString);
+   if(kontrolkaString.Equals('a'))then
+   begin
+   showmessage('awaria');
+   Shape1.Brush.Color:=$007070FE;
+    Button2.Enabled:=true;
+    Button1.Enabled:=false;
 
 
-procedure TForm1.TimeEdit1Change(Sender: TObject);
-begin
+   end;
+      if(kontrolkaString.Equals('s'))then
+      begin
+   showmessage('sprawna');
+   Shape1.Brush.Color:= $0072FCB7  ;
+  Button1.Enabled:=true;
+  Button2.Enabled:=false;
 
+      end;
+
+
+  finally
+    CloseFile(TxtSprawdz);
 end;
+  end;
+    end;
+
 
 end.
 
