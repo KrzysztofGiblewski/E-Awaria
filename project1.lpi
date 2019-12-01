@@ -64,7 +64,7 @@
     </Linking>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="3">
+    <Exceptions Count="7">
       <Item1>
         <Name Value="EAbort"/>
       </Item1>
@@ -74,6 +74,18 @@
       <Item3>
         <Name Value="EFOpenError"/>
       </Item3>
+      <Item4>
+        <Name Value="RunError(2)"/>
+      </Item4>
+      <Item5>
+        <Name Value="EInOutError"/>
+      </Item5>
+      <Item6>
+        <Name Value="RunError(103)"/>
+      </Item6>
+      <Item7>
+        <Name Value="RunError(104)"/>
+      </Item7>
     </Exceptions>
   </Debugging>
 </CONFIG>
