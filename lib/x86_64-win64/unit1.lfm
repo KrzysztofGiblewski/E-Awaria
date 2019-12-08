@@ -15,6 +15,7 @@ object Form1: TForm1
     Top = 8
     Width = 688
     Brush.Color = 13565902
+    OnChangeBounds = Shape1ChangeBounds
   end
   object DateEdit1: TDateEdit
     Left = 26
