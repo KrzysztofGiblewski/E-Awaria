@@ -14,6 +14,7 @@ type
 
   TForm1 = class(TForm)
     Button1: TButton;
+    Button10: TButton;
     Button2: TButton;
     Button3: TButton;
     Button4: TButton;
@@ -26,15 +27,31 @@ type
     ComboBox2: TComboBox;
     ComboBox3: TComboBox;
     ComboBox4: TComboBox;
+    ComboBox5: TComboBox;
     DateEdit1: TDateEdit;
     DateEdit2: TDateEdit;
     Edit1: TEdit;
+    Edit10: TEdit;
+    Edit11: TEdit;
     Edit2: TEdit;
     Edit3: TEdit;
     Edit4: TEdit;
     Edit5: TEdit;
+    Edit6: TEdit;
+    Edit7: TEdit;
+    Edit8: TEdit;
+    Edit9: TEdit;
     Label1: TLabel;
     Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -49,15 +66,19 @@ type
     Shape1: TShape;
     TimeEdit1: TTimeEdit;
     TimeEdit2: TTimeEdit;
+    procedure Button10Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
     procedure Button9Click(Sender: TObject);
-    procedure wypelnij(Sender: TObject);
+    procedure Edit5Change(Sender: TObject);
+    procedure Shape1ChangeBounds(Sender: TObject);
+        procedure wypelnij(Sender: TObject);
   private
 
   public
@@ -69,7 +90,7 @@ var
 
   TxtLista, TxtSprawdz, TxtAwaria: TextFile;
   scierzka, scierzkaKontrolki, scierzkaAwarii, kontrolkaString,
-  tempowaty, stringolik, awariaString, logoawariowe: string;
+  tempowaty, stringolik, stringMaszyna , awariaString, logoawariowe ,uwagiAwari, uwagiNaprawy: string;
 
 implementation
 
@@ -78,7 +99,7 @@ implementation
 { TForm1 }
 
  //ZGLOSZENIE
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TForm1.Button1Click(Sender: TObject);  //przycisk zgloszenia awarii
 var odpowiedz:integer;
 begin
   odpowiedz:= Application.MessageBox('Potwierdz zgloszenie', 'Zglos awarie',1);
@@ -94,11 +115,15 @@ begin
 
     stringolik := ComboBox1.Text;
     tempowaty := ComboBox2.Text;
+    stringMaszyna :=ComboBox5.Text;
+
     stringolik := stringolik.Replace(',', '.');
     tempowaty := tempowaty.Replace(',', '.');
+    stringMaszyna :=stringMaszyna.Replace(',','.');
     stringolik := stringolik.ToUpper;
     tempowaty := tempowaty.ToUpper;
-    Write(TxtLista, DateEdit1.Text + ',' + TimeEdit1.Text + ',' +
+    stringMaszyna :=stringMaszyna.ToUpper;
+    Write(TxtLista, stringMaszyna +','+ DateEdit1.Text + ',' + TimeEdit1.Text + ',' +
       stringolik + ',' + 'zglaszajacy' + ',' + tempowaty + ',');
   finally
     // awaria i enable przyciskow kontrolek
@@ -109,7 +134,8 @@ begin
     ComboBox1.Enabled := False;
     ComboBox2.Enabled := False;
     ComboBox3.Enabled := True;
-    ComboBox4.Enabled := True;
+    ComboBox4.Enabled := True;  
+    ComboBox5.Enabled := False;
     DateEdit1.Enabled:=False;
      TimeEdit1.Enabled:=False;
     DateEdit2.Enabled:=True;
@@ -146,10 +172,24 @@ end;
   showmessage('nie to nie');
  
   end;
+
+procedure TForm1.Button10Click(Sender: TObject);
+var scierzkaDostepu,scierzkaDostepu2,scierzkaDostepu3:string;
+begin
+  scierzkaDostepu := Edit1.Text + Edit6.Text;
+  scierzkaDostepu2 := Edit1.Text + Edit7.Text;
+  scierzkaDostepu3:=Edit1.Text +Edit8.Text;
+  combobox1.Items.LoadFromFile(scierzkaDostepu);
+  combobox3.Items.LoadFromFile(scierzkaDostepu2);
+  combobox5.Items.LoadFromFile(scierzkaDostepu3);
+
+end;
+
 //naprawa
-procedure TForm1.Button2Click(Sender: TObject);
+procedure TForm1.Button2Click(Sender: TObject);        //przycisk potwierdzajacy naprawe
 var naprawione: integer;
 begin
+  // okno potwierdzajace tak / nie ?
     naprawione:= Application.MessageBox('Potwierdzasz naprawienie maszyny','Potwierdzenie usuniecia awarii',1);
     if naprawione=1 then
   begin
@@ -175,6 +215,7 @@ begin
     ComboBox2.Enabled := True;
     ComboBox3.Enabled := False;
     ComboBox4.Enabled := False;
+    ComboBox5.Enabled := True;
     DateEdit1.Enabled:=True;
     TimeEdit1.Enabled:=True;
     DateEdit2.Enabled:=False;
@@ -222,8 +263,19 @@ end;
 
 procedure TForm1.Button6Click(Sender: TObject);
 begin
-
+    Panel2.Visible:=true;
+  Memo1.Visible:=true;
+  if edit5.Text<>'hasło'then
+  panel1.Visible:=false;
 end;
+
+procedure TForm1.Button7Click(Sender: TObject);
+begin
+  Panel2.Visible:=false;
+  memo1.Visible:=false;
+  edit5.Text:='hasło';
+end;
+
  //dzis
 procedure TForm1.Button8Click(Sender: TObject);
 begin
@@ -235,9 +287,25 @@ begin
   DateEdit2.Date := Now;
 end;
 
+procedure TForm1.Edit5Change(Sender: TObject);
+begin
+  if edit5.Text='omg'then
+  panel1.Visible:=true
+  else     panel1.Visible:=false;
+end;
+
+procedure TForm1.Shape1ChangeBounds(Sender: TObject);
+begin
+
+end;
+
+
+
 procedure TForm1.wypelnij(Sender: TObject);
 begin
+
   Edit1.Text := Application.Location;
+  Form1.Button10.Click;
   scierzka := Edit1.Text + Edit2.Text;
   AssignFile(TxtLista, scierzka);
   TimeEdit1.Time := Now;
@@ -290,9 +358,12 @@ begin
     end;
   finally
     CloseFile(TxtSprawdz);
+
   end;
 
 end;
+
+
 
 procedure ostatniaLinijka();
 begin
