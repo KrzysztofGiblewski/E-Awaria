@@ -6,79 +6,86 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
-  Dialogs, EditBtn, StdCtrls, ExtCtrls, IniPropStorage;
+  Dialogs, EditBtn, StdCtrls, ExtCtrls, IniPropStorage, MaskEdit, IniFiles;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    Button1: TButton;
-    Button10: TButton;
-    Button2: TButton;
-    Button3: TButton;
-    Button4: TButton;
-    Button5: TButton;
-    Button6: TButton;
-    Button7: TButton;
-    Button8: TButton;
-    Button9: TButton;
-    ComboBox1: TComboBox;
-    ComboBox2: TComboBox;
-    ComboBox3: TComboBox;
-    ComboBox4: TComboBox;
-    ComboBox5: TComboBox;
-    DateEdit1: TDateEdit;
-    DateEdit2: TDateEdit;
-    Edit1: TEdit;
-    Edit10: TEdit;
-    Edit11: TEdit;
-    Edit2: TEdit;
-    Edit3: TEdit;
-    Edit4: TEdit;
-    Edit5: TEdit;
-    Edit6: TEdit;
-    Edit7: TEdit;
-    Edit8: TEdit;
-    Edit9: TEdit;
-    Label1: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
-    Label13: TLabel;
-    Label14: TLabel;
-    Label15: TLabel;
-    Label16: TLabel;
-    Label17: TLabel;
-    Label18: TLabel;
-    Label19: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
-    Memo1: TMemo;
-    Panel1: TPanel;
-    Panel2: TPanel;
-    Shape1: TShape;
-    TimeEdit1: TTimeEdit;
-    TimeEdit2: TTimeEdit;
-    procedure Button10Click(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
-    procedure Button4Click(Sender: TObject);
-    procedure Button5Click(Sender: TObject);
-    procedure Button6Click(Sender: TObject);
-    procedure Button7Click(Sender: TObject);
-    procedure Button8Click(Sender: TObject);
-    procedure Button9Click(Sender: TObject);
-    procedure Edit5Change(Sender: TObject);
-    procedure Shape1ChangeBounds(Sender: TObject);
-        procedure wypelnij(Sender: TObject);
+      Button1: TButton;
+      Button10: TButton;
+      Button11: TButton;
+      Button12: TButton;
+      Button2: TButton;
+      Button3: TButton;
+      Button4: TButton;
+      Button5: TButton;
+      Button6: TButton;
+      Button7: TButton;
+      Button8: TButton;
+      Button9: TButton;
+      ComboBox1: TComboBox;
+      ComboBox2: TComboBox;
+      ComboBox3: TComboBox;
+      ComboBox4: TComboBox;
+      ComboBox5: TComboBox;
+      DateEdit1: TDateEdit;
+      DateEdit2: TDateEdit;
+      Edit1: TEdit;
+      Edit10: TEdit;
+      Edit11: TEdit;
+      Edit12: TEdit;
+      Edit2: TEdit;
+      Edit3: TEdit;
+      Edit4: TEdit;
+      Edit5: TEdit;
+      Edit6: TEdit;
+      Edit7: TEdit;
+      Edit8: TEdit;
+      Edit9: TEdit;
+      Label1: TLabel;
+      Label10: TLabel;
+      Label11: TLabel;
+      Label12: TLabel;
+      Label13: TLabel;
+      Label14: TLabel;
+      Label15: TLabel;
+      Label16: TLabel;
+      Label17: TLabel;
+      Label18: TLabel;
+      Label19: TLabel;
+      Label2: TLabel;
+      Label20: TLabel;
+      Label3: TLabel;
+      Label4: TLabel;
+      Label5: TLabel;
+      Label6: TLabel;
+      Label7: TLabel;
+      Label8: TLabel;
+      Label9: TLabel;
+      LabelPanelNr: TLabel;
+      Memo1: TMemo;
+      Panel1: TPanel;
+      Shape1: TShape;
+      TimeEdit1: TTimeEdit;
+      TimeEdit2: TTimeEdit;
+      procedure Button10Click(Sender: TObject);
+      procedure Button11Click(Sender: TObject);
+      procedure Button12Click(Sender: TObject);
+      procedure Button1Click(Sender: TObject);
+      procedure Button2Click(Sender: TObject);
+      procedure Button3Click(Sender: TObject);
+      procedure Button4Click(Sender: TObject);
+      procedure Button5Click(Sender: TObject);
+      procedure Button6Click(Sender: TObject);
+      procedure Button7Click(Sender: TObject);
+      procedure Button8Click(Sender: TObject);
+      procedure Button9Click(Sender: TObject);
+      procedure Edit5Change(Sender: TObject);
+      procedure wypelnij(Sender: TObject);
+      procedure zmienMaszyneLabel(Sender: TObject);
+
   private
 
   public
@@ -90,7 +97,9 @@ var
 
   TxtLista, TxtSprawdz, TxtAwaria: TextFile;
   scierzka, scierzkaKontrolki, scierzkaAwarii, kontrolkaString,
-  tempowaty, stringolik, stringMaszyna , awariaString, logoawariowe ,uwagiAwari, uwagiNaprawy: string;
+  stringOperatorZglaszajacy, stringTekstAwarii, stringMaszyna ,
+  awariaString, logoawariowe ,uwagiAwari, uwagiNaprawy, stringPanel: string;
+
 
 implementation
 
@@ -100,31 +109,32 @@ implementation
 
  //ZGLOSZENIE
 procedure TForm1.Button1Click(Sender: TObject);  //przycisk zgloszenia awarii
-var odpowiedz:integer;
+var
+    odpowiedz:integer;
+    stringUwagi:string;
 begin
-  odpowiedz:= Application.MessageBox('Potwierdz zgloszenie', 'Zglos awarie',1);
+     odpowiedz:= Application.MessageBox('Potwierdz zgloszenie', 'Zglos awarie',1);
   if odpowiedz=1 then
-  begin
-  scierzka := Edit1.Text + Edit2.Text;
-  scierzkaKontrolki := Edit1.Text + Edit3.Text;
-  AssignFile(TxtLista, scierzka);
-
+   begin
+      scierzka := Edit1.Text + Edit2.Text;
+      scierzkaKontrolki := Edit1.Text + Edit3.Text;
+      AssignFile(TxtLista, scierzka);
 
   try
     Append(TxtLista);
 
-    stringolik := ComboBox1.Text;
-    tempowaty := ComboBox2.Text;
-    stringMaszyna :=ComboBox5.Text;
-
-    stringolik := stringolik.Replace(',', '.');
-    tempowaty := tempowaty.Replace(',', '.');
-    stringMaszyna :=stringMaszyna.Replace(',','.');
-    stringolik := stringolik.ToUpper;
-    tempowaty := tempowaty.ToUpper;
-    stringMaszyna :=stringMaszyna.ToUpper;
-    Write(TxtLista, stringMaszyna +','+ DateEdit1.Text + ',' + TimeEdit1.Text + ',' +
-      stringolik + ',' + 'zglaszajacy' + ',' + tempowaty + ',');
+    stringPanel:=LabelPanelNr.Caption;
+    stringPanel:=stringPanel.Replace(',','.');
+    stringTekstAwarii := ComboBox1.Text;
+    stringTekstAwarii:=stringTekstAwarii.Replace(',', '.');
+    stringOperatorZglaszajacy := ComboBox2.Text;
+    stringOperatorZglaszajacy:=stringOperatorZglaszajacy.Replace(',', '.');
+    stringMaszyna :=Label20.Caption;
+    stringMaszyna:=stringMaszyna.Replace(',', '.');
+    stringUwagi := Edit9.Text;
+    stringUwagi:=stringUwagi.Replace(',', '.');
+    Write(TxtLista,stringPanel+' , '+  stringMaszyna +' , '+ DateEdit1.Text + ' , ' + TimeEdit1.Text + ' , '
+                + stringTekstAwarii + ' , '+stringUwagi + ' , ' + stringOperatorZglaszajacy + ' , ');
   finally
     // awaria i enable przyciskow kontrolek
     CloseFile(TxtLista);
@@ -137,20 +147,19 @@ begin
     ComboBox4.Enabled := True;  
     ComboBox5.Enabled := False;
     DateEdit1.Enabled:=False;
-     TimeEdit1.Enabled:=False;
+    TimeEdit1.Enabled:=False;
     DateEdit2.Enabled:=True;
     TimeEdit2.Enabled:=True;
-
-
-
+    Edit9.Enabled:=False;
+    Edit10.Enabled:=True;
     Memo1.Lines.LoadFromFile(scierzka);
+    button3.Click;
   end;
-  ///////////
   begin
     AssignFile(TxtAwaria, edit1.Text + 'awaria.txt');
     try
       Rewrite(TxtAwaria);
-      Write(TxtAwaria, stringolik);
+      Write(TxtAwaria, stringTekstAwarii);
     finally
       CloseFile(TxtAwaria);
     end;
@@ -159,13 +168,12 @@ begin
     AssignFile(TxtSprawdz, scierzkaKontrolki);
     try
       Rewrite(TxtSprawdz);
-      Write(TxtSprawdz, 'a');
+      kontrolkaString:= 'a' ;
+      Write(TxtSprawdz, kontrolkaString);
 
     finally
       CloseFile(TxtSprawdz);
     end;
-    //////////////
-
   end;
 end;
   if odpowiedz=0 then
@@ -173,45 +181,35 @@ end;
  
   end;
 
-procedure TForm1.Button10Click(Sender: TObject);
-var scierzkaDostepu,scierzkaDostepu2,scierzkaDostepu3:string;
-begin
-  scierzkaDostepu := Edit1.Text + Edit6.Text;
-  scierzkaDostepu2 := Edit1.Text + Edit7.Text;
-  scierzkaDostepu3:=Edit1.Text +Edit8.Text;
-  combobox1.Items.LoadFromFile(scierzkaDostepu);
-  combobox3.Items.LoadFromFile(scierzkaDostepu2);
-  combobox5.Items.LoadFromFile(scierzkaDostepu3);
-
-end;
-
 //naprawa
 procedure TForm1.Button2Click(Sender: TObject);        //przycisk potwierdzajacy naprawe
 var naprawione: integer;
+    stringUwagi:string;
 begin
-  // okno potwierdzajace tak / nie ?
+       // okno potwierdzajace tak / nie ?
     naprawione:= Application.MessageBox('Potwierdzasz naprawienie maszyny','Potwierdzenie usuniecia awarii',1);
     if naprawione=1 then
   begin
-  Label2.Caption := 'Maszyna sprawma';
-  scierzka := Edit1.Text + Edit2.Text;
-  AssignFile(TxtLista, scierzka);
+    Label2.Caption := 'Maszyna sprawna';
+    scierzka := Edit1.Text + Edit2.Text;
+    AssignFile(TxtLista, scierzka);
 
   try
     Append(TxtLista);
-    stringolik := ComboBox3.Text;
-    tempowaty := ComboBox4.Text;
-    stringolik := stringolik.Replace(',', '.');
-    tempowaty := tempowaty.Replace(',', '.');
-    Write(TxtLista, DateEdit2.Text + ',' + TimeEdit2.Text + ',' +
-      stringolik + ',' + 'naprawiający' + ',' + tempowaty + #13);
-    //+enter nowa linia
+    stringTekstAwarii := ComboBox3.Text;
+    stringTekstAwarii:=stringTekstAwarii.Replace(',','.');
+    stringOperatorZglaszajacy := ComboBox4.Text;
+    stringOperatorZglaszajacy:=stringOperatorZglaszajacy.Replace(',','.');
+    stringUwagi := Edit10.Text;
+    stringUwagi:=stringUwagi.Replace(',','.');
+    Write(TxtLista, DateEdit2.Text + ' , ' + TimeEdit2.Text + ' , ' +
+                      stringTekstAwarii +' , '+stringUwagi+' , ' + stringOperatorZglaszajacy + #13); //+enter nowa linia
   finally
     CloseFile(TxtLista);
     Shape1.Brush.Color := $00CEFFCE;
     Button1.Enabled := True;      //wlacz awarie
     Button2.Enabled := False;   //przycisk wylaczajacy awarie
-     ComboBox1.Enabled := True;
+    ComboBox1.Enabled := True;
     ComboBox2.Enabled := True;
     ComboBox3.Enabled := False;
     ComboBox4.Enabled := False;
@@ -220,13 +218,16 @@ begin
     TimeEdit1.Enabled:=True;
     DateEdit2.Enabled:=False;
     TimeEdit2.Enabled:=False;
-   Memo1.Lines.LoadFromFile(scierzka);
+    Edit9.Enabled:=True;
+    Edit10.Enabled:=False;
+    Memo1.Lines.LoadFromFile(scierzka);
   end;
   begin
     AssignFile(TxtSprawdz, scierzkaKontrolki);
     try
       Rewrite(TxtSprawdz);
-      Write(TxtSprawdz, 's');
+      kontrolkaString:='s';
+      Write(TxtSprawdz, kontrolkaString);
 
     finally
       CloseFile(TxtSprawdz);
@@ -239,134 +240,212 @@ end;
 // wyswietla ostatnia awarie
 procedure TForm1.Button3Click(Sender: TObject);
 begin
-  scierzkaAwarii := Edit1.Text + Edit4.Text;
-  AssignFile(TxtAwaria, scierzkaAwarii);
+    scierzkaAwarii := Edit1.Text + Edit4.Text;
+    AssignFile(TxtAwaria, scierzkaAwarii);
   try
     Reset(TxtAwaria);
     Readln(TxtAwaria, logoawariowe);
   finally
     closeFile(TxtAwaria);
   end;
-  label2.Caption := logoawariowe;
+    label2.Caption := logoawariowe;
+    ComboBox1.Text:=logoawariowe;
 
 end;
-//przypisanie dzis
-procedure TForm1.Button4Click(Sender: TObject);
+procedure TForm1.Button4Click(Sender: TObject); //przypisanie dzis
 begin
   TimeEdit1.Time := Now;
 end;
- //teraz
-procedure TForm1.Button5Click(Sender: TObject);
+procedure TForm1.Button5Click(Sender: TObject);//teraz
 begin
   TimeEdit2.Time := Now;
 end;
-
-procedure TForm1.Button6Click(Sender: TObject);
+procedure TForm1.Button10Click(Sender: TObject);      // przycisk wczytaj listy z plikow txt
+var
+ scierzkaDostepu,scierzkaDostepu2 ,scierzkaDostepu3 :string;
 begin
-    Panel2.Visible:=true;
-  Memo1.Visible:=true;
-  if edit5.Text<>'hasło'then
-  panel1.Visible:=false;
+  scierzkaDostepu := Edit1.Text + Edit6.Text;
+  scierzkaDostepu2 := Edit1.Text + Edit7.Text;
+  scierzkaDostepu3:=Edit1.Text +Edit8.Text;
+  combobox1.Items.LoadFromFile(scierzkaDostepu);
+  combobox3.Items.LoadFromFile(scierzkaDostepu2);
+  combobox5.Items.LoadFromFile(scierzkaDostepu3);
 end;
 
-procedure TForm1.Button7Click(Sender: TObject);
+
+procedure TForm1.Button11Click(Sender: TObject);       //zapisz dane w pliku ini
+var
+iniPliki:TiniFile;
 begin
-  Panel2.Visible:=false;
+  iniPliki:=TIniFile.Create(ExtractShortPathName(Application.Location)+'iniPlikiiii.ini');
+  //                   to sekcja     to nazwa   a to wartosc tej nazwy
+  iniPliki.WriteString('Panel','ktoryPanel',Edit12.Text);
+  iniPliki.WriteString('PlikiTxt','plikAwarii',Edit2.Text);
+  iniPliki.WriteString('PlikiTxt','plikKontrolka',Edit3.Text);
+  iniPliki.WriteString('PlikiTxt','plikAwaria',Edit4.Text);  //bierzaca awaria
+  iniPliki.WriteString('PlikiTxt','plikAwarieLista',Edit6.Text);
+  iniPliki.WriteString('PlikiTxt','plikNaprawyLista',Edit7.Text);
+  iniPliki.WriteString('PlikiTxt','plikMaszyny',Edit8.Text);
+  iniPliki.WriteString('PlikiTxt','plikKontrolka',Edit11.Text);
+  iniPliki.WriteString('Kontrolka','StanMaszyny',kontrolkaString);
+  iniPliki.WriteString('OstatniaAwaria','LastAwaria',label2.Caption);
+
+
+iniPliki.Free;
+end;
+
+procedure TForm1.Button12Click(Sender: TObject);         //wczytaj nr panela
+var
+iniPliki:TiniFile;
+ stringZNrPanela ,ostatniaAwaria, stringMaszynaaaa:string;
+begin
+  iniPliki:=TIniFile.Create(ExtractShortPathName(Application.Location)+'iniPlikiiii.ini');
+  stringZNrPanela:=iniPliki.ReadString('Panel','ktoryPanel','11');
+  Edit12.Text:=stringZNrPanela;
+  LabelPanelNr.Caption :=stringZNrPanela;
+  stringMaszynaaaa:= iniPliki.ReadString('Maszyna','ktoraMaszyna','Laminator 1');
+  Label20.Caption:=stringMaszynaaaa;
+  ostatniaAwaria:=iniPliki.ReadString('OstatniaAwaria','LastAwaria','aAwaria');
+  //label2.Caption:=ostatniaAwaria;
+  iniPliki.Free;
+end;
+
+procedure TForm1.Button6Click(Sender: TObject);   // przycis pokarz memo
+begin
+
+     Memo1.Visible:=true;
+  if edit5.Text<>'hasło'then
+     panel1.Visible:=false;
+end;
+procedure TForm1.Button7Click(Sender: TObject);   //przycisk ukryj
+begin
+  Panel1.Visible:=false;
   memo1.Visible:=false;
   edit5.Text:='hasło';
 end;
-
- //dzis
-procedure TForm1.Button8Click(Sender: TObject);
+procedure TForm1.Button8Click(Sender: TObject); //dzis
 begin
   DateEdit1.Date := Now;
 end;
   //dzis
-procedure TForm1.Button9Click(Sender: TObject);
+procedure TForm1.Button9Click(Sender: TObject);  //teraz
 begin
   DateEdit2.Date := Now;
 end;
 
-procedure TForm1.Edit5Change(Sender: TObject);
+procedure TForm1.Edit5Change(Sender: TObject);    //miejsce hasła
 begin
-  if edit5.Text='omg'then
-  panel1.Visible:=true
-  else     panel1.Visible:=false;
+    if edit5.Text='omg'then
+      panel1.Visible:=true
+
+  else
+      panel1.Visible:=false;
 end;
 
-procedure TForm1.Shape1ChangeBounds(Sender: TObject);
+procedure TForm1.wypelnij(Sender: TObject);      //odczytuje z plikow tekstowych i wpisuje w pola wyboru
+var
+iniPliki:TiniFile;
+ stringZNrPanela ,ostatniaAwaria:string;
 begin
-
-end;
-
-
-
-procedure TForm1.wypelnij(Sender: TObject);
-begin
-
-  Edit1.Text := Application.Location;
-  Form1.Button10.Click;
-  scierzka := Edit1.Text + Edit2.Text;
-  AssignFile(TxtLista, scierzka);
-  TimeEdit1.Time := Now;
-  TimeEdit2.Time := Now;
+    Edit1.Text := Application.Location;
+   // Form1.Button3.Click;   //żeby wypełniło label2 który będzie przepisany do combobox1 czyli ostatnia awaria
+    scierzka := Edit1.Text + Edit2.Text;
+    AssignFile(TxtLista, scierzka);
+    TimeEdit1.Time := Now;
+    TimeEdit2.Time := Now;
   try
     Append(TxtLista);
   finally
     CloseFile(TxtLista);
   end;
-  Memo1.Lines.LoadFromFile(scierzka);
-  scierzkaKontrolki := Edit1.Text + Edit3.Text;
-  AssignFile(TxtSprawdz, scierzkaKontrolki);
+    Memo1.Lines.LoadFromFile(scierzka);
+    scierzkaKontrolki := Edit1.Text + Edit3.Text;
+    AssignFile(TxtSprawdz, scierzkaKontrolki);
   try
     Reset(TxtSprawdz);
     if FileExists(scierzkaKontrolki) then // sprawdź, czy plik istnieje
     begin
       ReadLn(TxtSprawdz, kontrolkaString);
-      if (kontrolkaString.Equals('a')) then
+      if (kontrolkaString.Equals('a')) then   // a w pliku kontriolka to awaria
       begin
+
         Shape1.Brush.Color := $007070FE;
         Button2.Enabled := True;
         Button1.Enabled := False;
         ComboBox1.Enabled := False;
-    ComboBox2.Enabled := False;
-    ComboBox3.Enabled := True;
-    ComboBox4.Enabled := True;
-    DateEdit1.Enabled:=False;
-     TimeEdit1.Enabled:=False;
-    DateEdit2.Enabled:=True;
-    TimeEdit2.Enabled:=True;
+        ComboBox1.Text:=Label2.Caption;
+        ComboBox2.Enabled := False;
+        ComboBox3.Enabled := True;
+        ComboBox4.Enabled := True;
+        DateEdit1.Enabled:=False;
+        TimeEdit1.Enabled:=False;
+        DateEdit2.Enabled:=True;
+        TimeEdit2.Enabled:=True;
+        Edit9.Enabled:=False;
 
-        label2.Caption := kontrolkaString;
-      end;
-      if (kontrolkaString.Equals('s')) then
-      begin
-        Shape1.Brush.Color := $00CEFFCE;
-        Button1.Enabled := True;
-        Button2.Enabled := False;
-         ComboBox1.Enabled := True;
-    ComboBox2.Enabled := True;
-    ComboBox3.Enabled := False;
-    ComboBox4.Enabled := False;
-    DateEdit1.Enabled:=True;
-    TimeEdit1.Enabled:=True;
-    DateEdit2.Enabled:=False;
-    TimeEdit2.Enabled:=False;
 
-      end;
 
-    end;
+
+
+         end;
+          if (kontrolkaString.Equals('s')) then           //jesli w pliku kontrolka jest s to znaczy ze maszyna sprawna
+              begin
+                  Shape1.Brush.Color := $00CEFFCE;
+                  Button1.Enabled := True;
+                  Button2.Enabled := False;
+                  ComboBox1.Enabled := True;
+                  ComboBox2.Enabled := True;
+                  ComboBox3.Enabled := False;
+                  ComboBox4.Enabled := False;
+                  DateEdit1.Enabled:=True;
+                  TimeEdit1.Enabled:=True;
+                  DateEdit2.Enabled:=False;
+                  TimeEdit2.Enabled:=False;
+                  Edit9.Enabled:=True;
+                  Edit10.Enabled:=False;
+
+                end;
+
+          end;
+
   finally
     CloseFile(TxtSprawdz);
 
   end;
+   button12.Click; //zeby wczytalo z pliku ini na starcie   przycisk "odczytaj z ini"
+   button3.Click; //żeby wczytało ostatnią awarię           przycisk "jaka ostatnia awaria"
+   button10.Click; //żeby wypełniało listę maszyn       "wczytaj z listy"
+
+
+
+{
+
+ begin
+  iniPliki:=TIniFile.Create(ExtractShortPathName(Application.Location)+'iniPlikiiii.ini');
+
+  stringZNrPanela:=iniPliki.ReadString('Panel','ktoryPanel','0');
+  LabelPanelNr.Caption :=stringZNrPanela;
+
+  //prubuje przepisac nr panela do edit12
+  edit12.Text:=stringZNrPanela;
+
+  ostatniaAwaria:=iniPliki.ReadString('OstatniaAwaria','LastAwaria','aAwaria');
+  label2.Caption:=ostatniaAwaria;
+
+  stringMaszyna:= iniPliki.ReadString('Maszyna','ktoraMaszyna','Laminator COMEXI');
+ // ComboBox5.Items.AddText(stringMaszyna);      //zamiast tego label20 bedzie tekstem
+  Label20.Caption:=stringMaszyna;
+
+  iniPliki.Free;
+    end;
+
+    }
 
 end;
 
-
-
-procedure ostatniaLinijka();
+procedure TForm1.zmienMaszyneLabel(Sender: TObject);
 begin
+  Label20.Caption:=ComboBox5.Text;
 end;
 
 end.

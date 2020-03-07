@@ -1,4 +1,3 @@
 Laminator 1
-Laminator 2
+Laminator UTECO
 Przewijarka
-Zgrzewarka
